@@ -25,11 +25,11 @@ public class Profile {
         this.state = state;
         this.zip = zip; }
 
-    public int getUser_id()
-    { return user_id; }
+    public int getUserId()
+    { return userId; }
 
-    public void setUser_id(int user_id)
-    { this.user_id = user_id; }
+    public void setUserId(int userId)
+    { this.userId = userId; }
 
     public String getFirstName()
     { return firstName; }

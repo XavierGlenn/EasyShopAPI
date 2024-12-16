@@ -3,7 +3,6 @@ package org.yearup.data.azure;
 import org.springframework.stereotype.Component;
 import org.yearup.models.Category;
 import org.yearup.models.Product;
-
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -68,7 +67,7 @@ public abstract class AzureCategoryDao extends AzureDaoBase {
 
     private Category mapRow(ResultSet row) throws SQLException {
         Category category = new Category();
-        category.setCategory_id(row.getInt("category_id"));
+        category.setCategory_id(row.getInt("categoryId"));
         category.setName(row.getString("name"));
         category.setDescription(row.getString("description"));
         return category; }

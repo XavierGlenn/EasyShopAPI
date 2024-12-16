@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class AzureUserDao extends AzureDaoBase implements UserDao {
+public abstract class AzureUserDao extends AzureDaoBase implements UserDao {
 
     @Autowired
     public AzureUserDao(DataSource dataSource)

@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 import java.sql.*;
 
 @Component
-public class AzureProfileDao extends AzureDaoBase implements ProfileDao {
+public abstract class AzureProfileDao extends AzureDaoBase implements ProfileDao {
     public AzureProfileDao(DataSource dataSource)
     {
         super(dataSource);
