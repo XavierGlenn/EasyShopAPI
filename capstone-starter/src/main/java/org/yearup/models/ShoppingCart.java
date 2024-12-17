@@ -17,18 +17,15 @@ public class ShoppingCart {
     public boolean contains(int productId)
     { return items.containsKey(productId); }
 
-    public void add(ShoppingCartItem item)
-    { items.put(item.getProductId(), item); }
+    public void addItems(Map<Integer, ShoppingCartItem> items)
+    { this.items = items; }
 
     public ShoppingCartItem get(int productId)
     { return items.get(productId); }
 
-    public BigDecimal getTotal()
-    {
-        BigDecimal total = items.values()
-                                .stream()
-                                .map(i -> i.getLineTotal())
-                                .reduce( BigDecimal.ZERO, (lineTotal, subTotal) -> subTotal.add(lineTotal));
+    public BigDecimal getTotal() {
+        return items.values().stream().map(i -> i.getLineTotal()).reduce( BigDecimal.ZERO, (lineTotal, subTotal) -> subTotal.add(lineTotal)); }
 
-        return total; }
+    public void updateItems(int productId, int quantity) {}
+    public void deleteItems(int productId, int quantity) {}
 }

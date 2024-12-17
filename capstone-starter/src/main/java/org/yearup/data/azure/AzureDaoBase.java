@@ -29,13 +29,13 @@ public abstract class AzureDaoBase
 
     public abstract List<Product> getCategory_Id(int category_id);
 
-    public abstract Product getById(int categoryId);
+    public abstract Category getById(int categoryId);
 
     public abstract Category create(Category category);
 
     public abstract void update(int categoryId, Category category) throws SQLException;
 
-    public abstract Product create(Product product);
+    public abstract Category create(Product product);
 
     public abstract void update(int productId, Product product);
 

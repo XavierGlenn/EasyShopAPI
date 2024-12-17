@@ -1,6 +1,7 @@
 package org.yearup.data.azure;
 
 import org.springframework.stereotype.Component;
+import org.yearup.models.Category;
 import org.yearup.models.Product;
 import org.yearup.data.ProductDao;
 import javax.sql.DataSource;
@@ -67,7 +68,7 @@ public abstract class AzureProductDao extends AzureDaoBase implements ProductDao
         return products; }
 
     @Override
-    public Product getById(int productId) {
+    public Category getById(int productId) {
 
         String sql = "SELECT * FROM products WHERE productId = ?";
         try (Connection connection = getConnection()) {
@@ -83,7 +84,7 @@ public abstract class AzureProductDao extends AzureDaoBase implements ProductDao
         return null; }
 
     @Override
-    public Product create(Product product) {
+    public Category create(Product product) {
 
         String sql = "INSERT INTO products(name, price, category_id, description, color, image_url, stock, featured) " +
                 " VALUES (?, ?, ?, ?, ?, ?, ?, ?);";

@@ -1,25 +1,26 @@
 package org.yearup.data.azure;
 
 import org.springframework.stereotype.Component;
+import org.yearup.data.CategoryDao;
 import org.yearup.models.Category;
 import org.yearup.models.Product;
 import javax.sql.DataSource;
+import java.math.BigDecimal;
+import java.sql.*;
+import java.util.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 @Component
-public abstract class AzureCategoryDao extends AzureDaoBase {
+public class AzureCategoryDao extends AzureDaoBase implements CategoryDao {
 
     public AzureCategoryDao(DataSource dataSource) {
         super(dataSource); }
 
     @Override
     public List<Category> getAllCategories() {
-        String sql = "SELECT category_id, name, description FROM categories";
+        String sql = "SELECT * FROM categories";
         List<Category> categories = new ArrayList<>();
 
         try (Connection connection = dataSource.getConnection();
@@ -27,48 +28,109 @@ public abstract class AzureCategoryDao extends AzureDaoBase {
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                categories.add(mapRow(resultSet)); }
+                Category category = new Category();
+                category.setCategory_id(resultSet.getInt("category_id"));
+                category.setName(resultSet.getString("name")); //FIXME tf goes here?
+                categories.add(category); }
 
         } catch (SQLException e) {
-            Logger.error("Error fetching categories from database", e);
-            throw new RuntimeException("Error fetching categories from database", e); }
-        return categories;
-    }
+            e.printStackTrace();
+            throw new RuntimeException("Error fetching categories", e); }
+        return categories; }
 
     @Override
-    public Product getById(int categoryId) { // Simulate database retrieval
-        return database.find(Category.class, categoryId); }
+    public List<Product> search(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String color) {
+        return List.of(); }
+
+    @Override
+    public List<Product> getCategory_Id(int category_id) {
+        return List.of(); }
 
     @Override
     public Category create(Category category) {
-        // Add the new category to the database
-        database.save(category);
+        String sql = "INSERT INTO categories (name, description) VALUES (?, ?)";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            statement.setString(1, category.getName()); //FIXME tf goes here?
+            statement.setString(2, category.getDescription()); //FIXME tf goes here?
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        category.setCategory_id(generatedKeys.getInt(1));
+                    }
+                }
+            } else {
+                throw new RuntimeException("Failed to insert category");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle exceptions appropriately
+            throw new RuntimeException("Error creating category", e); }
         return category; }
 
     @Override
-    public void update(int categoryId, Category category) throws SQLException {
-        Category existingCategory = getById(categoryId);
-        if (existingCategory != null) {
-            existingCategory.setName(category.getName());
-            existingCategory.setDescription(category.getDescription());
-            database.update(existingCategory);
-        } else {
-            throw new SQLException("Category not found."); }
+    public Category getById(int categoryId) {
+        String sql = "SELECT * FROM categories WHERE category_id = ?"; // Adjust column name as needed
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, categoryId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    Category category = new Category();
+                    category.setCategory_id(resultSet.getInt("category_id")); //FIXME tf goes here?
+                    category.setName(resultSet.getString("name")); //FIXME tf goes here?
+                    category.setDescription(resultSet.getString("description")); //FIXME tf goes here?
+                    return category; }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error fetching category by ID", e); }
+        return null; }
+
+    @Override
+    public void update(int categoryId, Category category) {
+        String sql = "UPDATE categories SET name = ?, description = ? WHERE category_id = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, category.getName()); //FIXME tf goes here?
+            statement.setString(2, category.getDescription()); //FIXME tf goes here?
+            statement.setInt(3, categoryId);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle exceptions appropriately
+            throw new RuntimeException("Error updating category", e); }
     }
 
     @Override
-    public void delete(int categoryId) throws SQLException {
-        Category category = getById(categoryId);
-        if (category != null) {
-            database.delete(category);
-        } else {
-            throw new SQLException("Category not found."); }
-    }
+    public Category create(Product product) {
+        return null; }
 
-    private Category mapRow(ResultSet row) throws SQLException {
-        Category category = new Category();
-        category.setCategory_id(row.getInt("categoryId"));
-        category.setName(row.getString("name"));
-        category.setDescription(row.getString("description"));
-        return category; }
+    @Override
+    public void update(int productId, Product product) {}
+
+    @Override
+    public void delete(int categoryId) {
+        String sql = "DELETE FROM categories WHERE category_id = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, categoryId);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle exceptions appropriately
+            throw new RuntimeException("Error deleting category", e);
+        }
+    }
 }

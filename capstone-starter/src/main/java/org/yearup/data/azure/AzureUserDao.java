@@ -1,10 +1,10 @@
 package org.yearup.data.azure;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.yearup.data.UserDao;
 import org.yearup.models.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public abstract class AzureUserDao extends AzureDaoBase implements UserDao {
+public abstract class AzureUserDao extends UserDao {
 
     @Autowired
     public AzureUserDao(DataSource dataSource)
@@ -120,4 +120,6 @@ public abstract class AzureUserDao extends AzureDaoBase implements UserDao {
         String hashedPassword = row.getString("hashed_password");
         String role = row.getString("role");
         return new User(userId, username,hashedPassword, role); }
+
+    protected abstract Connection getConnection();
 }
