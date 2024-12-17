@@ -1,5 +1,3 @@
-package org.yearup.controllers;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,8 +31,9 @@ public class ShoppingCartController {
     private int productId;
     private ShoppingCartItem item;
 
-    @PreAuthorize("isAuthenticated()")
+
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public ShoppingCart getCart(Principal principal) {
         try {
             String userName = principal.getName();
@@ -45,8 +44,9 @@ public class ShoppingCartController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to fetch products in cart."); }
     }
 
-    @PreAuthorize("isAuthenticated()")
+
     @PostMapping("products/{productId}")
+    @PreAuthorize("isAuthenticated()")
     public ShoppingCart addProductToCart(@PathVariable int productId, Principal principal) {
         try {
             String userName = principal.getName();
@@ -58,12 +58,12 @@ public class ShoppingCartController {
             shoppingCartDao.updateFromCart();
             return cart;
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to add product to cart.");
-        }
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to add product to cart."); }
     }
 
-    @PreAuthorize("isAuthenticated()")
+
     @PutMapping("products/{productId}")
+    @PreAuthorize("isAuthenticated()")
     public ShoppingCart updateProductInCart(@PathVariable int productId, @RequestBody ShoppingCartItem item, Principal principal) {
         try {
             String userName = principal.getName();
@@ -77,8 +77,9 @@ public class ShoppingCartController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to update product in cart."); }
     }
 
-    @PreAuthorize("isAuthenticated()")
+
     @DeleteMapping
+    @PreAuthorize("isAuthenticated()")
     public ShoppingCart deleteFromCart(Principal principal) {
         try {
             String userName = principal.getName();

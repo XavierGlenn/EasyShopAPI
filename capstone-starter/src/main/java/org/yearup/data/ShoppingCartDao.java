@@ -9,4 +9,5 @@ public interface ShoppingCartDao {
     ShoppingCart getCartByUserId(int userId);
     List<Product> ShoppingCart(int categoryId, int productId, BigDecimal price, String color);;
     void deleteFromCart(int category_id);
+    void addFromCart(int category_id);
     void updateFromCart(); }
