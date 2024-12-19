@@ -21,7 +21,6 @@ public class SecurityUtils {
      *
      * @return the login of the current user.
      */
-
     public static Optional<String> getCurrentUsername() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -39,5 +38,6 @@ public class SecurityUtils {
 
         LOG.debug("found username '{}' in context", username);
 
-        return Optional.ofNullable(username); }
+        return Optional.ofNullable(username);
+    }
 }

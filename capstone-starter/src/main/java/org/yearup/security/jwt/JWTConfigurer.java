@@ -17,7 +17,5 @@ public class JWTConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilt
     public void configure(HttpSecurity http) {
         JWTFilter customFilter = new JWTFilter(tokenProvider);
         http.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
-
-        //https://snyk.io/advisor/python/jwt/functions/jwt.exceptions
     }
 }
