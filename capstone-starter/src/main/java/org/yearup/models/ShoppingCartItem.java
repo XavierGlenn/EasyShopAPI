@@ -4,57 +4,53 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.math.BigDecimal;
 
-public class ShoppingCartItem
-{
-    private Product product = null;
-    private int quantity = 1;
-    private BigDecimal discountPercent = BigDecimal.ZERO;
+public class ShoppingCartItem {
+    private Product product;
+    private int quantity;
+    private BigDecimal discountPercent;
 
+    public ShoppingCartItem() {
+        this.quantity = 1;
+        this.discountPercent = BigDecimal.ZERO;
+    }
 
-    public Product getProduct()
-    {
+    public Product getProduct() {
         return product;
     }
 
-    public void setProduct(Product product)
-    {
+    public void setProduct(Product product) {
         this.product = product;
     }
 
-    public int getQuantity()
-    {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity)
-    {
-        this.quantity = quantity;
+    public void setQuantity(int quantity) {
+        this.quantity = Math.max(quantity, 0); // Ensure non-negative quantity
     }
 
-    public BigDecimal getDiscountPercent()
-    {
+    public BigDecimal getDiscountPercent() {
         return discountPercent;
     }
 
-    public void setDiscountPercent(BigDecimal discountPercent)
-    {
-        this.discountPercent = discountPercent;
+    public void setDiscountPercent(BigDecimal discountPercent) {
+        this.discountPercent = discountPercent != null ? discountPercent : BigDecimal.ZERO;
     }
 
     @JsonIgnore
-    public int getProductId()
-    {
-        return this.product.getProductId();
+    public int getProductId() {
+        return product != null ? product.getProductId() : -1; // Return -1 if product is null
     }
 
-    public BigDecimal getLineTotal()
-    {
+    public BigDecimal getLineTotal() {
+        if (product == null) {
+            return BigDecimal.ZERO;
+        }
         BigDecimal basePrice = product.getPrice();
-        BigDecimal quantity = new BigDecimal(this.quantity);
+        BigDecimal subtotal = basePrice.multiply(new BigDecimal(quantity));
+        BigDecimal discountAmount = subtotal.multiply(discountPercent);
 
-        BigDecimal subTotal = basePrice.multiply(quantity);
-        BigDecimal discountAmount = subTotal.multiply(discountPercent);
-
-        return subTotal.subtract(discountAmount);
+        return subtotal.subtract(discountAmount);
     }
 }
