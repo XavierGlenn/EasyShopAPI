@@ -27,15 +27,11 @@ This Capstone has a primary focus on working with a base code, bug fixing, worki
 | Parameter | Type     | Description                        |
 | :-------- | :------- | :--------------------------------  |
 | `id`      | `string` | **Required:**. Id of item to fetch |
-## Features:
 
-
-## Roadmap
-
-(Insert screenshot here)
 ## Screenshots
+([azuredata](https://github.com/user-attachments/assets/c307ce57-e866-40de-949d-00dffad910a5))
 
-(Insert screenshot here)
+(![capstonehtml](https://github.com/user-attachments/assets/b11567b7-add0-4464-8c38-485fb02c8da5))
 ## Installation:
 
 - run main.java.
