@@ -14,7 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Component
-public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDao {
+class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDao {
 
     private ProductDao productDao;
 
