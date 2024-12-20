@@ -8,9 +8,9 @@ import org.yearup.configurations.UserHelper;
 import org.yearup.data.ProductDao;
 import org.yearup.data.ShoppingCartDao;
 import org.yearup.models.Product;
+import org.yearup.models.Profile;
 import org.yearup.models.ShoppingCart;
 import org.yearup.models.ShoppingCartItem;
-
 import java.security.Principal;
 
 @RestController
@@ -61,9 +61,9 @@ public class ShoppingCartController {
     }
 
     @PutMapping("products/{productId}")
-    public ResponseEntity<Void> updateItem(@PathVariable int productId, @RequestBody ShoppingCartItem item, Principal principal) {
+    public ResponseEntity<Void> updateItem(@PathVariable int productId, @RequestBody ShoppingCartItem item, Principal principal, Profile user) {
         try {
-            int userId = userHelper.getUserId(principal);
+            int userId = user.getUserId();
             Product p = new Product();
             p.setProductId(productId);
             item.setProduct(p);
@@ -74,9 +74,9 @@ public class ShoppingCartController {
     }
 
     @DeleteMapping
-    public ResponseEntity<ShoppingCart> deleteCart(Principal principal) {
+    public ResponseEntity<ShoppingCart> deleteCart(Principal principal, Profile user) {
         try {
-            int userId = userHelper.getUserId(principal);
+            int userId = user.getUserId();
             shoppingCartDao.delete(userId);
             return ResponseEntity.ok(shoppingCartDao.getByUserId(userId));
         } catch (Exception e) {
