@@ -6,7 +6,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -18,14 +17,12 @@ import java.io.IOException;
  * Filters incoming requests and installs a Spring Security principal if a header corresponding to a valid user is
  * found.
  */
+
 public class JWTFilter extends GenericFilterBean {
 
     private static final Logger LOG = LoggerFactory.getLogger(JWTFilter.class);
-
     public static final String AUTHORIZATION_HEADER = "Authorization";
-
     private TokenProvider tokenProvider;
-
     public JWTFilter(TokenProvider tokenProvider) {
         this.tokenProvider = tokenProvider;
     }
@@ -42,17 +39,12 @@ public class JWTFilter extends GenericFilterBean {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             LOG.debug("set Authentication to custom security context for '{}', uri: {}", authentication.getName(), requestURI);
         } else {
-            LOG.debug("no valid JWT token found, uri: {}", requestURI);
-        }
-
-        filterChain.doFilter(servletRequest, servletResponse);
-    }
+            LOG.debug("no valid JWT token found, uri: {}", requestURI); }
+        filterChain.doFilter(servletRequest, servletResponse); }
 
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-        return null;
-    }
+            return bearerToken.substring(7); }
+        return null; }
 }

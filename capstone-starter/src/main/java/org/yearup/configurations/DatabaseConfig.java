@@ -7,8 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class DatabaseConfig
-{
+public class DatabaseConfig {
     private BasicDataSource basicDataSource;
 
     @Bean
@@ -24,6 +23,5 @@ public class DatabaseConfig
         basicDataSource = new BasicDataSource();
         basicDataSource.setUrl(url);
         basicDataSource.setUsername(username);
-        basicDataSource.setPassword(password);
-    }
+        basicDataSource.setPassword(password); }
 }

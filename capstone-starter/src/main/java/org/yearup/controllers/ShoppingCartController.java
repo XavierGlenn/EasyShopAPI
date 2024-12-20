@@ -26,8 +26,7 @@ public class ShoppingCartController {
     public ShoppingCartController(ShoppingCartDao shoppingCartDao, ProductDao productDao, UserHelper userHelper) {
         this.shoppingCartDao = shoppingCartDao;
         this.productDao = productDao;
-        this.userHelper = userHelper;
-    }
+        this.userHelper = userHelper; }
 
 
     @GetMapping
@@ -37,8 +36,7 @@ public class ShoppingCartController {
             ShoppingCart cart = shoppingCartDao.getByUserId(userId);
             return ResponseEntity.ok(cart);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); }
     }
 
     @PostMapping("products/{productId}")
@@ -54,14 +52,12 @@ public class ShoppingCartController {
                 if (product == null) {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
                 }
-                shoppingCartDao.addProduct(userId, product);
-            }
+                shoppingCartDao.addProduct(userId, product); }
 
             ShoppingCart updatedCart = shoppingCartDao.getByUserId(userId);
             return ResponseEntity.ok(updatedCart);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); }
     }
 
     @PutMapping("products/{productId}")

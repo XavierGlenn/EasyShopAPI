@@ -6,7 +6,6 @@ import org.yearup.data.ShoppingCartDao;
 import org.yearup.models.Product;
 import org.yearup.models.ShoppingCart;
 import org.yearup.models.ShoppingCartItem;
-
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,8 +19,7 @@ class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDao {
 
     public MySqlShoppingCartDao(DataSource dataSource, ProductDao productDao) {
         super(dataSource);
-        this.productDao = productDao;
-    }
+        this.productDao = productDao; }
 
     @Override
     public ShoppingCart getByUserId(int userId) {
@@ -33,7 +31,6 @@ class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDao {
                      WHERE user_id = ?""")
         ) {
             statement.setInt(1, userId);
-
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
@@ -42,13 +39,10 @@ class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDao {
                 ShoppingCartItem item = new ShoppingCartItem();
                 item.setProduct(product);
                 item.setQuantity(quantity);
-                cart.add(item);
-            }
+                cart.add(item); }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return cart;
-    }
+            throw new RuntimeException(e); }
+        return cart; }
 
     @Override
     public void addProduct(int userId, Product product) {
@@ -59,13 +53,10 @@ class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDao {
         ) {
             statement.setInt(1, userId);
             statement.setInt(2, product.getProductId());
-
             int row = statement.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
+            throw new RuntimeException(e); }
     }
 
     @Override
@@ -79,12 +70,10 @@ class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDao {
             statement.setInt(1, item.getQuantity() + 1);
             statement.setInt(2, userId);
             statement.setInt(3, item.getProductId());
-
             statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        }
+            throw new RuntimeException(e); }
     }
 
     @Override
@@ -98,7 +87,6 @@ class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDao {
 
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to delete shopping cart for user ID: " + userId, e);
-        }
+            throw new RuntimeException("Failed to delete shopping cart for user ID: " + userId, e); }
     }
 }

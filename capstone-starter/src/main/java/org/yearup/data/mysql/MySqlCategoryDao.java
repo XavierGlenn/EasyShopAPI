@@ -3,7 +3,6 @@ package org.yearup.data.mysql;
 import org.springframework.stereotype.Component;
 import org.yearup.data.CategoryDao;
 import org.yearup.models.Category;
-
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,8 +12,7 @@ import java.util.List;
 public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
 
     public MySqlCategoryDao(DataSource dataSource) {
-        super(dataSource);
-    }
+        super(dataSource); }
 
     @Override
     public List<Category> getAllCategories() {
@@ -27,14 +25,10 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
 
             while (resultSet.next()) {
                 Category category = mapRow(resultSet);
-                categories.add(category);
-            }
+                categories.add(category); }
         } catch (SQLException e) {
-            throw new RuntimeException("Error fetching all categories", e);
-        }
-
-        return categories;
-    }
+            throw new RuntimeException("Error fetching all categories", e); }
+        return categories; }
 
     @Override
     public Category getById(int categoryId) {
@@ -45,13 +39,10 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
 
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                return mapRow(resultSet);
-            }
+                return mapRow(resultSet); }
         } catch (SQLException e) {
-            throw new RuntimeException("Error fetching category by ID", e);
-        }
-        return null;
-    }
+            throw new RuntimeException("Error fetching category by ID", e); }
+        return null; }
 
     @Override
     public Category create(Category category) {
@@ -66,14 +57,11 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
                 ResultSet generatedKeys = statement.getGeneratedKeys();
                 if (generatedKeys.next()) {
                     int newCategoryId = generatedKeys.getInt(1);
-                    return getById(newCategoryId);
-                }
+                    return getById(newCategoryId); }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error creating category", e);
-        }
-        return null;
-    }
+            throw new RuntimeException("Error creating category", e); }
+        return null; }
 
     @Override
     public void update(int categoryId, Category category) {
@@ -83,11 +71,9 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
             statement.setString(1, category.getName());
             statement.setString(2, category.getDescription());
             statement.setInt(3, categoryId);
-
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Error updating category", e);
-        }
+            throw new RuntimeException("Error updating category", e); }
     }
 
     @Override
@@ -96,18 +82,14 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, categoryId);
-
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Error deleting category", e);
-        }
+            throw new RuntimeException("Error deleting category", e); }
     }
 
     private Category mapRow(ResultSet row) throws SQLException {
         int categoryId = row.getInt("category_id");
         String name = row.getString("name");
         String description = row.getString("description");
-
-        return new Category(categoryId, name, description);
-    }
+        return new Category(categoryId, name, description);}
 }

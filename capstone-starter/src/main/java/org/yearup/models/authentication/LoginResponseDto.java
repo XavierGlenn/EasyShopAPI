@@ -9,6 +9,7 @@ import org.yearup.models.User;
     pass to the server for a login endpoint, and TokenDto represents the object that's returned from the server
     to the client from a login endpoint.
  */
+
 public class LoginResponseDto {
 
     private String token;
@@ -16,24 +17,19 @@ public class LoginResponseDto {
 
     public LoginResponseDto(String token, User user) {
         this.token = token;
-        this.user = user;
-    }
+        this.user = user; }
 
     @JsonProperty("token")
     String getToken() {
-        return token;
-    }
+        return token; }
 
     void setToken(String token) {
-        this.token = token;
-    }
+        this.token = token; }
 
     @JsonProperty("user")
     public User getUser() {
-        return user;
-    }
+        return user; }
 
     public void setUser(User user) {
-        this.user = user;
-    }
+        this.user = user; }
 }

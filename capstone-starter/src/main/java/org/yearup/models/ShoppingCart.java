@@ -8,16 +8,13 @@ public class ShoppingCart {
     private Map<Integer, ShoppingCartItem> items = new HashMap<>();
 
     public Map<Integer, ShoppingCartItem> getItems() {
-        return new HashMap<>(items); // Defensive copy to prevent external modifications
-    }
+        return new HashMap<>(items); }
 
     public void setItems(Map<Integer, ShoppingCartItem> items) {
-        this.items = new HashMap<>(items); // Defensive copy
-    }
+        this.items = new HashMap<>(items); }
 
     public boolean contains(int productId) {
-        return items.containsKey(productId);
-    }
+        return items.containsKey(productId); }
 
     public void add(ShoppingCartItem item) {
         int productId = item.getProductId();
@@ -25,26 +22,21 @@ public class ShoppingCart {
             ShoppingCartItem existingItem = items.get(productId);
             existingItem.setQuantity(existingItem.getQuantity() + item.getQuantity());
         } else {
-            items.put(productId, item);
-        }
+            items.put(productId, item); }
     }
 
     public void remove(int productId) {
-        items.remove(productId);
-    }
+        items.remove(productId); }
 
     public ShoppingCartItem get(int productId) {
-        return items.get(productId);
-    }
+        return items.get(productId); }
 
     public void clear() {
-        items.clear();
-    }
+        items.clear(); }
 
     public BigDecimal getTotal() {
         return items.values()
                 .stream()
                 .map(ShoppingCartItem::getLineTotal)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
+                .reduce(BigDecimal.ZERO, BigDecimal::add); }
 }

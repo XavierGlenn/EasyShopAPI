@@ -4,6 +4,5 @@ import java.security.Principal;
 
 public class UserHelper {
     public int getUserId(Principal principal) {
-        return 0;
-    }
+        return 0; }
 }

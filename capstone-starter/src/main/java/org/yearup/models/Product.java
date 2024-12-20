@@ -13,8 +13,7 @@ public class Product {
     private boolean isFeatured;
     private String imageUrl;
 
-    public Product() {
-    }
+    public Product() {}
 
     public Product(int productId, String name, BigDecimal price, int categoryId, String description, String color, int stock, boolean isFeatured, String imageUrl) {
         this.productId = productId;
@@ -25,78 +24,59 @@ public class Product {
         this.color = color;
         this.stock = stock;
         this.isFeatured = isFeatured;
-        this.imageUrl = imageUrl;
-    }
+        this.imageUrl = imageUrl; }
 
     public int getProductId() {
-        return productId;
-    }
+        return productId; }
 
     public void setProductId(int productId) {
-        this.productId = productId;
-    }
+        this.productId = productId; }
 
     public String getName() {
-        return name;
-    }
+        return name; }
 
     public void setName(String name) {
-        this.name = name;
-    }
+        this.name = name; }
 
     public BigDecimal getPrice() {
-        return price;
-    }
+        return price; }
 
     public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
+        this.price = price; }
 
     public int getCategoryId() {
-        return categoryId;
-    }
+        return categoryId; }
 
     public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
+        this.categoryId = categoryId; }
 
     public String getDescription() {
-        return description;
-    }
+        return description; }
 
     public void setDescription(String description) {
-        this.description = description;
-    }
+        this.description = description; }
 
     public String getColor() {
-        return color;
-    }
+        return color; }
 
     public void setColor(String color) {
-        this.color = color;
-    }
+        this.color = color; }
 
     public int getStock() {
-        return stock;
-    }
+        return stock; }
 
     public void setStock(int stock) {
-        this.stock = stock;
-    }
+        this.stock = stock; }
 
     public boolean isFeatured() {
-        return isFeatured;
-    }
+        return isFeatured; }
 
     public void setFeatured(boolean featured) {
-        isFeatured = featured;
-    }
+        isFeatured = featured; }
 
     public String getImageUrl() {
-        return imageUrl;
-    }
+        return imageUrl; }
 
     public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+        this.imageUrl = imageUrl; }
 }

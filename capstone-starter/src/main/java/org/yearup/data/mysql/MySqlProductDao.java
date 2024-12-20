@@ -13,8 +13,7 @@ import java.util.List;
 @Component
 public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
     public MySqlProductDao(DataSource dataSource) {
-        super(dataSource);
-    }
+        super(dataSource); }
 
     @Override
     public List<Product> search(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String color) {
@@ -33,27 +32,14 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
             statement.setBigDecimal(2, minPrice);
             statement.setBigDecimal(3, maxPrice);   //(Error #2)
             statement.setString(4, color);
-//            statement.setInt(1, categoryId);
-//            statement.setInt(2, categoryId);
-//            statement.setBigDecimal(3, minPrice);
-//            statement.setBigDecimal(4, minPrice);
-//            statement.setBigDecimal(5, maxPrice);
-//            statement.setBigDecimal(6, maxPrice);
-//            statement.setString(7, color);
-//            statement.setString(8, color);
-
             ResultSet row = statement.executeQuery();
 
             while (row.next()) {
                 Product product = mapRow(row);
-                products.add(product);
-            }
+                products.add(product); }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return products;
-    }
+            throw new RuntimeException(e); }
+        return products; }
 
     @Override
     public List<Product> listByCategoryId(int categoryId) {
@@ -64,19 +50,15 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
         try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, categoryId);
-
             ResultSet row = statement.executeQuery();
 
             while (row.next()) {
                 Product product = mapRow(row);
-                products.add(product);
-            }
+                products.add(product); }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            throw new RuntimeException(e); }
 
-        return products;
-    }
+        return products; }
 
 
     @Override
@@ -85,17 +67,13 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
         try (Connection connection = getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, productId);
-
             ResultSet row = statement.executeQuery();
 
             if (row.next()) {
-                return mapRow(row);
-            }
+                return mapRow(row); }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
+            throw new RuntimeException(e); }
+        return null; }
 
     @Override
     public Product create(Product product) {
@@ -112,7 +90,6 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
             statement.setString(6, product.getImageUrl());
             statement.setInt(7, product.getStock());
             statement.setBoolean(8, product.isFeatured());
-
             int rowsAffected = statement.executeUpdate();
 
             if (rowsAffected > 0) {
@@ -122,10 +99,8 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
                 if (generatedKeys.next()) {
                     // Retrieve the auto-incremented ID
                     int orderId = generatedKeys.getInt(1);
-
                     // get the newly inserted category
-                    return getById(orderId);
-                }
+                    return getById(orderId); }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -148,7 +123,6 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
             statement.setInt(7, product.getStock());
             statement.setBoolean(8, product.isFeatured());
             statement.setInt(9, productId);
-
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -166,8 +140,7 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
 
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            throw new RuntimeException(e); }
     }
 
     protected static Product mapRow(ResultSet row) throws SQLException {
@@ -180,7 +153,5 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao {
         int stock = row.getInt("stock");
         boolean isFeatured = row.getBoolean("featured");
         String imageUrl = row.getString("image_url");
-
-        return new Product(productId, name, price, categoryId, description, color, stock, isFeatured, imageUrl);
-    }
+        return new Product(productId, name, price, categoryId, description, color, stock, isFeatured, imageUrl); }
 }
