@@ -27,7 +27,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
                 Category category = mapRow(resultSet);
                 categories.add(category); }
         } catch (SQLException e) {
-            throw new RuntimeException("Error fetching all categories", e); }
+            throw new RuntimeException("ERROR: Please try again. /GetByCategoryException", e); }
         return categories; }
 
     @Override
@@ -41,7 +41,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
             if (resultSet.next()) {
                 return mapRow(resultSet); }
         } catch (SQLException e) {
-            throw new RuntimeException("Error fetching category by ID", e); }
+            throw new RuntimeException("ERROR: Please try again. /GetByIdException", e); }
         return null; }
 
     @Override
@@ -60,7 +60,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
                     return getById(newCategoryId); }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error creating category", e); }
+            throw new RuntimeException("ERROR: Please try again. /CreateException", e); }
         return null; }
 
     @Override
@@ -73,7 +73,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
             statement.setInt(3, categoryId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Error updating category", e); }
+            throw new RuntimeException("ERROR: Please try again. /UpdateException", e); }
     }
 
     @Override
@@ -84,7 +84,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
             statement.setInt(1, categoryId);
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Error deleting category", e); }
+            throw new RuntimeException("ERROR: Please try again. /DeleteException", e); }
     }
 
     private Category mapRow(ResultSet row) throws SQLException {

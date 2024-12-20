@@ -4,7 +4,6 @@ public class Category {
     private int categoryId;
     private String name;
     private String description;
-
     public Category() {}
 
     public Category(int categoryId, String name, String description) {

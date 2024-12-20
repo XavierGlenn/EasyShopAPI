@@ -30,7 +30,7 @@ public class CategoriesController {
         try {
             return categoryDao.getAllCategories(); }
         catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad."); }
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "ERROR: Please try again. /GetMapException"); }
     }
 
     @GetMapping("{id}")
@@ -42,7 +42,7 @@ public class CategoriesController {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
             return category; }
         catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad."); }
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "ERROR: Please try again. /GetMapException" ); }
     }
 
     @GetMapping("{categoryId}/products")
@@ -51,7 +51,7 @@ public class CategoriesController {
         try {
             return productDao.search(categoryId, null, null, null); }
         catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad."); }
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "ERROR: Please try again. /GetMapException"); }
     }
 
     @PostMapping("")
@@ -60,7 +60,7 @@ public class CategoriesController {
         try {
             return categoryDao.create(category); }
         catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad."); }
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "ERROR: Please try again. /PostMapException"); }
     }
 
     @PutMapping("{id}")
@@ -69,7 +69,7 @@ public class CategoriesController {
         try {
             categoryDao.update(id, category); }
         catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad."); }
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "ERROR: Please try again. /PutMapException"); }
     }
 
     @DeleteMapping("{id}")
@@ -78,11 +78,10 @@ public class CategoriesController {
     {
         try {
             var category = categoryDao.getById(id);
-
             if (category == null)
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
             categoryDao.delete(id); }
         catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad."); }
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "ERROR: Please try again. /DeleteMapException"); }
     }
 }

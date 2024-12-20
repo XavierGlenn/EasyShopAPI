@@ -16,7 +16,6 @@ import java.sql.SQLException;
 class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDao {
 
     private ProductDao productDao;
-
     public MySqlShoppingCartDao(DataSource dataSource, ProductDao productDao) {
         super(dataSource);
         this.productDao = productDao; }
@@ -27,8 +26,7 @@ class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDao {
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement("""
-                     SELECT * FROM shopping_cart
-                     WHERE user_id = ?""")
+                     SELECT * FROM shopping_cart WHERE user_id = ?""")
         ) {
             statement.setInt(1, userId);
             ResultSet rs = statement.executeQuery();
@@ -48,9 +46,7 @@ class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDao {
     public void addProduct(int userId, Product product) {
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement("""
-                     INSERT INTO shopping_cart(user_id, product_id, quantity)
-                     VALUES (?, ?, 1)""", PreparedStatement.RETURN_GENERATED_KEYS)
-        ) {
+                     INSERT INTO shopping_cart(user_id, product_id, quantity)VALUES (?, ?, 1)""", PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, userId);
             statement.setInt(2, product.getProductId());
             int row = statement.executeUpdate();
@@ -65,8 +61,7 @@ class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDao {
              PreparedStatement statement = connection.prepareStatement("""
                      UPDATE shopping_cart
                      SET quantity = ?
-                     WHERE user_id = ? AND product_id = ?""")
-        ) {
+                     WHERE user_id = ? AND product_id = ?""")) {
             statement.setInt(1, item.getQuantity() + 1);
             statement.setInt(2, userId);
             statement.setInt(3, item.getProductId());
@@ -80,13 +75,12 @@ class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDao {
     public void delete(int userId) {
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement("""
-                     DELETE FROM shopping_cart
-                     WHERE user_id = ?""")
+                     DELETE FROM shopping_cart WHERE user_id = ?""")
         ) {
             statement.setInt(1, userId);
 
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to delete shopping cart for user ID: " + userId, e); }
+            throw new RuntimeException("ERROR: Failed to delete cart for user " + userId, e); }
     }
 }

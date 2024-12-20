@@ -15,21 +15,17 @@ import java.util.List;
 @CrossOrigin
 public class ProductsController {
     private ProductDao productDao;
-
     @Autowired
     public ProductsController(ProductDao productDao) {
         this.productDao = productDao; }
 
     @GetMapping("")
     @PreAuthorize("permitAll()")
-    public List<Product> search(@RequestParam(name = "cat", required = false) Integer categoryId,
-                                @RequestParam(name = "minPrice", required = false) BigDecimal minPrice,
-                                @RequestParam(name = "maxPrice", required = false) BigDecimal maxPrice,
-                                @RequestParam(name = "color", required = false) String color) {
+    public List<Product> search(@RequestParam(name = "cat", required = false) Integer categoryId, @RequestParam(name = "minPrice", required = false) BigDecimal minPrice, @RequestParam(name = "maxPrice", required = false) BigDecimal maxPrice, @RequestParam(name = "color", required = false) String color) {
         try {
             return productDao.search(categoryId, minPrice, maxPrice, color);
         } catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad."); }
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "ERROR: Please try again. /GetMapException"); }
     }
 
     @GetMapping("/byCategory")
@@ -38,7 +34,7 @@ public class ProductsController {
         try {
             return productDao.listByCategoryId(categoryId);
         } catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad."); }
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "ERROR: Please try again. /GetMapException"); }
     }
 
     @GetMapping("{id}")
@@ -50,7 +46,7 @@ public class ProductsController {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
             return product;
         } catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad."); }
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "ERROR: Please try again. /GetMapException"); }
     }
 
     @PostMapping()
@@ -59,7 +55,7 @@ public class ProductsController {
         try {
             return productDao.create(product);
         } catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad."); }
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "ERROR: Please try again. /PostMapException"); }
     }
 
     @PutMapping("{id}")
@@ -68,7 +64,7 @@ public class ProductsController {
         try {
             productDao.update(id, product);
         } catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad."); }
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "ERROR: Please try again. /PutMapException"); }
     }
 
     @DeleteMapping("{id}")
@@ -80,6 +76,6 @@ public class ProductsController {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
             productDao.delete(id);
         } catch (Exception ex) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad."); }
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "ERROR: Please try again. /DeleteMapException"); }
     }
 }
